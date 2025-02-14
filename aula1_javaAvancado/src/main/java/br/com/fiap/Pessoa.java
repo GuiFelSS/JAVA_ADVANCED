@@ -26,6 +26,6 @@ public class Pessoa {
     }
 
     public void andar() {
-        System.out.println("A pessoa está andando");
+        System.out.println("A Pessoa está andando");
     }
 }
