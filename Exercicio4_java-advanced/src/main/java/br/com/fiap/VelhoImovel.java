@@ -17,7 +17,7 @@ public class VelhoImovel extends Imovel {
     }
 
     public double desconto() {
-        desconto = (preco() * 0.1);
+        desconto = (preco() * 0.9);
         return desconto;
     }
 

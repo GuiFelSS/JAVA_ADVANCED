@@ -17,7 +17,7 @@ public class NovoImovel extends Imovel {
     }
 
     public double precoAdicional() {
-        precoAdicional = (preco() * 0.1);
+        precoAdicional = (preco() * 1.1);
         return precoAdicional;
     }
 
