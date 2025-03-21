@@ -9,8 +9,8 @@ import java.lang.reflect.Field;
 @Entity
 @Tabela(nome = "TAB_FUNCIONARIO")
 public class TabelaFuncionario {
-
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Coluna(nome = "ID")
     private Long id;
