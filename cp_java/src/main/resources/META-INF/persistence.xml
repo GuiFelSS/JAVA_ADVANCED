@@ -4,7 +4,6 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Adicione suas classes de entidade aqui! -->
-        <class>br.com.fiap.Entity.TabelaFuncionario</class>
         <class>br.com.fiap.Entity.Funcionario</class>
         <class>br.com.fiap.Entity.FunSenior</class>
         <class>br.com.fiap.Entity.FunPleno</class>

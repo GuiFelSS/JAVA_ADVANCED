@@ -1,6 +1,6 @@
 package br.com.fiap.Dao;
 
-import br.com.fiap.Entity.TabelaFuncionario;
+import br.com.fiap.Entity.Funcionario;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
@@ -15,21 +15,24 @@ public class FuncionarioDAO {
                 .createEntityManager();
     }
 
-    public void salvar(TabelaFuncionario funcionario) {
+    public void salvar(Funcionario funcionario) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
             entityManager.persist(funcionario);
             transaction.commit();
-            System.out.println("[SUCESSO] Registro inserido. ID: " + funcionario.getId());
+            System.out.println("Salvo com sucesso! ID: " + funcionario.getId());
         } catch (Exception e) {
-            if (transaction.isActive()) transaction.rollback();
-            System.err.println("[ERRO] " + e.getMessage());
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println("Erro ao salvar: " + e.getMessage());
+            e.printStackTrace(); // Adicione esta linha para ver o stack trace completo
         }
     }
 
-    public List<TabelaFuncionario> listarTodos() {
-        return entityManager.createQuery("SELECT f FROM TabelaFuncionario f", TabelaFuncionario.class)
+    public List<Funcionario> listarTodos() {
+        return entityManager.createQuery("SELECT f FROM TabelaFuncionario f", Funcionario.class)
                 .getResultList();
     }
 
