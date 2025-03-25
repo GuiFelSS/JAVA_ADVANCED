@@ -4,18 +4,18 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Adicione suas classes de entidade aqui! -->
-        <class>br.com.fiap.entity.TabelaFuncionario</class>
-        <class>br.com.fiap.entity.Funcionario</class>
-        <class>br.com.fiap.entity.FunSenior</class>
-        <class>br.com.fiap.entity.FunPleno</class>
-        <class>br.com.fiap.entity.FunEstagiario</class>
-        <class>br.com.fiap.entity.FunJunior</class>
+        <class>br.com.fiap.Entity.TabelaFuncionario</class>
+        <class>br.com.fiap.Entity.Funcionario</class>
+        <class>br.com.fiap.Entity.FunSenior</class>
+        <class>br.com.fiap.Entity.FunPleno</class>
+        <class>br.com.fiap.Entity.FunEstagiario</class>
+        <class>br.com.fiap.Entity.FunJunior</class>
 
         <properties>
             <!-- Configurações do Oracle FIAP -->
             <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL"/>
-            <property name="javax.persistence.jdbc.user" value="RM*"/>
+            <property name="javax.persistence.jdbc.user" value="rm*"/>
             <property name="javax.persistence.jdbc.password" value="*"/>
 
             <!-- Dialeto para Oracle 12c -->
