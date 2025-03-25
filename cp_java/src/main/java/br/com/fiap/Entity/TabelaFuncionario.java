@@ -1,4 +1,4 @@
-package br.com.fiap.entity;
+package br.com.fiap.Entity;
 
 import br.com.fiap.anotation.Tabela;
 import br.com.fiap.anotation.Coluna;
@@ -8,10 +8,11 @@ import java.lang.reflect.Field;
 
 @Entity
 @Tabela(nome = "TAB_FUNCIONARIO")
+@SequenceGenerator(name = "func_seq", sequenceName = "TAB_FUNCIONARIO_SEQ", allocationSize = 1)
 public class TabelaFuncionario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "func_seq")
     @Coluna(nome = "ID")
     private Long id;
 

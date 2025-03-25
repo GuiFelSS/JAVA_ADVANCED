@@ -8,13 +8,15 @@
         <class>br.com.fiap.entity.Funcionario</class>
         <class>br.com.fiap.entity.FunSenior</class>
         <class>br.com.fiap.entity.FunPleno</class>
+        <class>br.com.fiap.entity.FunEstagiario</class>
+        <class>br.com.fiap.entity.FunJunior</class>
 
         <properties>
             <!-- Configurações do Oracle FIAP -->
             <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL"/>
-            <property name="javax.persistence.jdbc.user" value="RM558282"/>
-            <property name="javax.persistence.jdbc.password" value="150203"/>
+            <property name="javax.persistence.jdbc.user" value="RM*"/>
+            <property name="javax.persistence.jdbc.password" value="*"/>
 
             <!-- Dialeto para Oracle 12c -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
@@ -22,6 +24,9 @@
             <!-- Logs (opcional) -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.jdbc.batch_size" value="20"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
 
             <!-- Atualiza automaticamente o schema -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
