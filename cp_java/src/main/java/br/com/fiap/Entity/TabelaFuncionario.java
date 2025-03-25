@@ -1,4 +1,4 @@
-package br.com.fiap.Entity;
+package br.com.fiap.entity;
 
 import br.com.fiap.anotation.Tabela;
 import br.com.fiap.anotation.Coluna;
@@ -9,8 +9,8 @@ import java.lang.reflect.Field;
 @Entity
 @Tabela(nome = "TAB_FUNCIONARIO")
 public class TabelaFuncionario {
-    @Id
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Coluna(nome = "ID")
     private Long id;
@@ -24,29 +24,6 @@ public class TabelaFuncionario {
     @Coluna(nome = "VALOR_POR_HORA")
     private double valorPorHora;
 
-    public TabelaFuncionario() {
-    }
-
-    public TabelaFuncionario(String nome, int horasTrabalhadas, double valorPorHora) {
-        this.nome = nome;
-        this.horasTrabalhadas = horasTrabalhadas;
-        this.valorPorHora = valorPorHora;
-    }
-
-    public String gerarSQLSelect() {
-        StringBuilder sql = new StringBuilder("SELECT ");
-        for (Field field : this.getClass().getDeclaredFields()) {
-            Coluna coluna = field.getAnnotation(Coluna.class);
-            if (coluna != null) {
-                sql.append(coluna.nome()).append(", ");
-            }
-        }
-        sql.delete(sql.length() - 2, sql.length()); // Remove a última vírgula
-        sql.append(" FROM ").append(this.getClass().getAnnotation(Tabela.class).nome());
-        return sql.toString();
-    }
-
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -77,5 +54,62 @@ public class TabelaFuncionario {
 
     public void setValorPorHora(double valorPorHora) {
         this.valorPorHora = valorPorHora;
+    }
+
+    public String gerarSQLInsert() {
+        StringBuilder sql = new StringBuilder("INSERT INTO ");
+        StringBuilder colunas = new StringBuilder();
+        StringBuilder valores = new StringBuilder();
+
+        sql.append(this.getClass().getAnnotation(Tabela.class).nome()).append(" (");
+
+        for (Field field : this.getClass().getDeclaredFields()) {
+            Coluna coluna = field.getAnnotation(Coluna.class);
+            if (coluna != null && !coluna.nome().equals("ID")) { // ID é auto-incremento
+                colunas.append(coluna.nome()).append(", ");
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(this);
+                    valores.append(value instanceof String ? "'" + value + "'" : value).append(", ");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        colunas.delete(colunas.length() - 2, colunas.length());
+        valores.delete(valores.length() - 2, valores.length());
+
+        sql.append(colunas).append(") VALUES (").append(valores).append(")");
+        return sql.toString();
+    }
+
+    public String gerarSQLUpdate() {
+        StringBuilder sql = new StringBuilder("UPDATE ");
+        sql.append(this.getClass().getAnnotation(Tabela.class).nome()).append(" SET ");
+
+        for (Field field : this.getClass().getDeclaredFields()) {
+            Coluna coluna = field.getAnnotation(Coluna.class);
+            if (coluna != null && !coluna.nome().equals("ID")) {
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(this);
+                    sql.append(coluna.nome()).append(" = ")
+                            .append(value instanceof String ? "'" + value + "'" : value)
+                            .append(", ");
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        sql.delete(sql.length() - 2, sql.length());
+        sql.append(" WHERE ID = ").append(this.id);
+        return sql.toString();
+    }
+
+    public String gerarSQLDelete() {
+        return "DELETE FROM " + this.getClass().getAnnotation(Tabela.class).nome() +
+                " WHERE ID = " + this.id;
     }
 }

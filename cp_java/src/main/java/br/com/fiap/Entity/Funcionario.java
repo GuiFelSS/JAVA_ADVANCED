@@ -39,6 +39,7 @@ public class Funcionario {
     public void infoFuncionario() {
         System.out.println("Nome do funcionario: " + nome);
         System.out.println("Salario do funcionario por horas: " + salarioPorHora);
+        System.out.println("Horas trabalhadas: " + getHorasTrabalhadas()+"h");
     }
 
     public Integer getId() {

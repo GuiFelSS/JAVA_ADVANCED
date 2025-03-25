@@ -1,6 +1,6 @@
 package br.com.fiap.Dao;
 
-import br.com.fiap.Entity.TabelaFuncionario; // Importação correta
+import br.com.fiap.entity.TabelaFuncionario;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import java.util.List;
@@ -10,7 +10,7 @@ public class FuncionarioDAO {
 
     public FuncionarioDAO() {
         this.entityManager = Persistence
-                .createEntityManagerFactory("persistence-unit-name")
+                .createEntityManagerFactory("CLIENTE_ORACLE")
                 .createEntityManager();
     }
 
