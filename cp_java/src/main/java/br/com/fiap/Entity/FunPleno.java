@@ -14,7 +14,7 @@ public class FunPleno extends Funcionario {
     public FunPleno() {
     }
 
-    public FunPleno(String nome, int horasTrabalhadas, double salarioPorHora, double bonusPleno) {
+    public FunPleno(String nome, int horasTrabalhadas, double salarioPorHora) {
         super(nome, horasTrabalhadas, salarioPorHora);
     }
 
