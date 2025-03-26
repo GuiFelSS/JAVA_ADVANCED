@@ -2,41 +2,51 @@ package br.com.fiap.Dao;
 
 import br.com.fiap.Entity.Funcionario;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
 public class FuncionarioDAO {
-    private EntityManager entityManager;
+    private EntityManager em;
+    private EntityManagerFactory emf;
 
     public FuncionarioDAO() {
-        this.entityManager = Persistence
-                .createEntityManagerFactory("CLIENTE_ORACLE")
-                .createEntityManager();
+        this.emf = Persistence.createEntityManagerFactory("CLIENTE_ORACLE");
+        this.em = emf.createEntityManager();
     }
 
     public void salvar(Funcionario funcionario) {
-        EntityTransaction transaction = entityManager.getTransaction();
+        EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            entityManager.persist(funcionario);
+            em.persist(funcionario);
             transaction.commit();
-            System.out.println("Salvo com sucesso! ID: " + funcionario.getId());
+            System.out.println("✅ Registro salvo com ID: " + funcionario.getId());
+
+            // Debug adicional
+            System.out.println("SQL executado: " + funcionario.gerarSQLInsert());
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
-            System.err.println("Erro ao salvar: " + e.getMessage());
-            e.printStackTrace(); // Adicione esta linha para ver o stack trace completo
+            System.err.println("❌ Erro ao salvar: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public List<Funcionario> listarTodos() {
-        return entityManager.createQuery("SELECT f FROM TabelaFuncionario f", Funcionario.class)
+        return em.createQuery("SELECT f FROM Funcionario f", Funcionario.class)
                 .getResultList();
     }
 
     public void fechar() {
-        entityManager.close();
+        if (em != null && em.isOpen()) {
+            em.close();
+        }
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
+        System.out.println("✅ Conexões fechadas com sucesso");
     }
 }
