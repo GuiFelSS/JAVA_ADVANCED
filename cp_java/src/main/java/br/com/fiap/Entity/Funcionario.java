@@ -42,6 +42,8 @@ public class Funcionario {
     }
 
     public void infoFuncionario() {
+        System.out.println("");
+        System.out.println("========================================");
         System.out.println("Nome do funcionario: " + nome);
         System.out.println("Salario do funcionario por horas: " + salarioPorHora);
         System.out.println("Horas trabalhadas: " + getHorasTrabalhadas()+"h");
@@ -85,17 +87,13 @@ public class Funcionario {
         StringBuilder valores = new StringBuilder();
 
         Class<?> clazz = this.getClass();
-        System.out.println("\n=== DEBUG DE CAMPOS ===");
 
         while (clazz != null && clazz != Object.class) {
-            System.out.println("Verificando campos da classe: " + clazz.getName());
 
             for (Field field : clazz.getDeclaredFields()) {
-                System.out.println("Campo: " + field.getName());
 
                 if (field.isAnnotationPresent(Coluna.class)) {
                     Coluna coluna = field.getAnnotation(Coluna.class);
-                    System.out.println("Anotação @Coluna encontrada: " + coluna.nome());
 
                     try {
                         field.setAccessible(true);
@@ -105,8 +103,6 @@ public class Funcionario {
                     } catch (IllegalAccessException e) {
                         System.err.println("Erro ao acessar campo: " + field.getName());
                     }
-                } else {
-                    System.out.println("Nenhuma anotação @Coluna encontrada");
                 }
             }
             clazz = clazz.getSuperclass();
@@ -126,12 +122,18 @@ public class Funcionario {
     }
 
     public String gerarSQLUpdate() {
+        // Usa a anotação @Table do JPA como fallback
+        Table anotacaoTabela = this.getClass().getAnnotation(Table.class);
+        String nomeTabela = (anotacaoTabela != null && !anotacaoTabela.name().isEmpty())
+                ? anotacaoTabela.name()
+                : "JV_TB_FUNCIONARIO"; // Valor padrão
+
         StringBuilder sql = new StringBuilder("UPDATE ");
-        sql.append(this.getClass().getAnnotation(Tabela.class).nome()).append(" SET ");
+        sql.append(nomeTabela).append(" SET ");
 
         for (Field field : this.getClass().getDeclaredFields()) {
-            Coluna coluna = field.getAnnotation(Coluna.class);
-            if (coluna != null && !coluna.nome().equals("ID")) {
+            if (field.isAnnotationPresent(Coluna.class)) {
+                Coluna coluna = field.getAnnotation(Coluna.class);
                 try {
                     field.setAccessible(true);
                     Object value = field.get(this);
@@ -139,18 +141,22 @@ public class Funcionario {
                             .append(value instanceof String ? "'" + value + "'" : value)
                             .append(", ");
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    System.err.println("Erro ao acessar campo: " + field.getName());
                 }
             }
         }
 
-        sql.delete(sql.length() - 2, sql.length());
-        sql.append(" WHERE ID = ").append(this.id);
+        sql.delete(sql.length() - 2, sql.length()); // Remove a última vírgula
+        sql.append(" WHERE ID_FUNCIONARIO = ").append(this.id);
         return sql.toString();
     }
 
     public String gerarSQLDelete() {
-        return "DELETE FROM " + this.getClass().getAnnotation(Tabela.class).nome() +
-                " WHERE ID = " + this.id;
+        Table anotacaoTabela = this.getClass().getAnnotation(Table.class);
+        String nomeTabela = (anotacaoTabela != null && !anotacaoTabela.name().isEmpty())
+                ? anotacaoTabela.name()
+                : this.getClass().getSimpleName();
+
+        return "DELETE FROM " + nomeTabela + " WHERE ID_FUNCIONARIO = " + this.id;
     }
 }

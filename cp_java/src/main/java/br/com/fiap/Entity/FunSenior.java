@@ -29,6 +29,7 @@ public class FunSenior extends Funcionario {
         super.infoFuncionario(); // Chama o método da classe pai para mostrar informações básicas
         System.out.println("Cargo: Sênior");
         System.out.println("Bônus por 15 horas trabalhadas: " + bonusSenior);
+        System.out.println("Ciclos de 15 horas completados: " + (getHorasTrabalhadas() / 15));
         System.out.println("Salário total com bônus: " + calculoSalarioMes());
     }
 
