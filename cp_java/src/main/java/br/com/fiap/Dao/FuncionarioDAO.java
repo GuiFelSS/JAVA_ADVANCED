@@ -103,8 +103,11 @@ public class FuncionarioDAO {
             }
 
             // --- Alteração principal: Gera o SQL ANTES de remover o objeto ---
-            String sqlDelete = funcionario.gerarSQLDelete(); // Captura o SQL primeiro
+            String sqlDelete = funcionario.gerarSQLDelete();
+            System.out.println("");
+            System.out.println("========================================");
             System.out.println("SQL DELETE: " + sqlDelete);
+            System.out.println("========================================");
 
             em.remove(funcionario);
             transaction.commit();
