@@ -39,8 +39,30 @@ public class FuncionarioDAO {
     }
 
     public List<Funcionario> listarTodos() {
-        return em.createQuery("SELECT f FROM Funcionario f", Funcionario.class)
+        // 1. Mostra o SQL que será executado
+        System.out.println("\nSQL GERADO PELO HIBERNATE:");
+        System.out.println("SELECT * FROM JV_TB_FUNCIONARIO");
+
+        // 2. Executa a consulta
+        List<Funcionario> funcionarios = em.createQuery("SELECT f FROM Funcionario f", Funcionario.class)
                 .getResultList();
+
+        // 3. Mostra os resultados formatados
+        System.out.println("\n=== RESULTADOS DA CONSULTA ===");
+        System.out.println("ID | TIPO       | NOME               | HORAS | SAL/HORA");
+        System.out.println("-------------------------------------------------------");
+
+        for (Funcionario f : funcionarios) {
+            String tipo = f.getClass().getSimpleName().replace("Fun", "");
+            System.out.printf("%2d | %-10s | %-18s | %5d | %8.2f%n",
+                    f.getId(),
+                    tipo,
+                    f.getNome(),
+                    f.getHorasTrabalhadas(),
+                    f.getSalarioPorHora());
+        }
+
+        return funcionarios;
     }
 
     public void fechar() {
