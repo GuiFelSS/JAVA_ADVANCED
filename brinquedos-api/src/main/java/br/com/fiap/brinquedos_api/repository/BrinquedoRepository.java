@@ -1,6 +1,6 @@
-package com.fiap.brinquedos.brinquedos_api.repository;
+package br.com.fiap.brinquedos_api.repository;
 
-import com.fiap.brinquedos.brinquedos_api.entity.Brinquedo;
+import br.com.fiap.brinquedos_api.entity.Brinquedo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

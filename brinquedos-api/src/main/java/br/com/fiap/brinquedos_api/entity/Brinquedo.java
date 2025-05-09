@@ -1,4 +1,4 @@
-package com.fiap.brinquedos.brinquedos_api.entity;
+package br.com.fiap.brinquedos_api.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

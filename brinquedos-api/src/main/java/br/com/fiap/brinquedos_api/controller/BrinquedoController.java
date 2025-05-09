@@ -1,7 +1,7 @@
-package com.fiap.brinquedos.brinquedos_api.controller;
+package br.com.fiap.brinquedos_api.controller;
 
-import com.fiap.brinquedos.brinquedos_api.entity.Brinquedo;
-import com.fiap.brinquedos.brinquedos_api.repository.BrinquedoRepository;
+import br.com.fiap.brinquedos_api.entity.Brinquedo;
+import br.com.fiap.brinquedos_api.repository.BrinquedoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

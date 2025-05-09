@@ -1,4 +1,4 @@
-package com.fiap.brinquedos.brinquedos_api;
+package br.com.fiap.brinquedos_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
